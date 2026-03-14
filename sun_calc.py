@@ -1,12 +1,12 @@
 import math
 from datetime import date, datetime
-import pytz
-from timezonefinder import TimezoneFinder
 
 def day_of_year(d):
     return d.timetuple().tm_yday
 
 def minutes_to_time(minutes):
+    
+    minutes = minutes % 1440 
     
     hours = int(minutes // 60)
     mins = int(minutes % 60)
@@ -39,17 +39,3 @@ def sunrise_sunset(lat, lon, d, timezone_offset):
 
     return minutes_to_time(sunrise), minutes_to_time(sunset)
 
-
-lat = 37.06
-lon = 37.38
-
-tf = TimezoneFinder()
-tz_name = tf.timezone_at(lat = lat, lng = lon)
-
-tz = pytz.timezone(tz_name)
-offset = tz.utcoffset(datetime.now()).total_seconds() / 60
-
-sunrise, sunset = sunrise_sunset(lat, lon, date.today(), offset)
-
-print("Sunrise: " + sunrise)
-print("Sunset: " + sunset)
